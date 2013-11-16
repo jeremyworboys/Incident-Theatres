@@ -27,7 +27,7 @@ module.exports = function(grunt) {
                 }
             },
 
-            all: ['test/*.js']
+            all: ['tests/*.js']
         },
 
         exec: {
