@@ -7,12 +7,11 @@ module.exports = {
 
     database: 'incident-theatres-node',
     protocol: 'mysql',
-    hostname: 'localhost',
-    username: 'root',
+    host: 'localhost',
+    user: 'root',
     password: 'root',
     query: {
-        pool:  true,
-        debug: true
+        pool: true
     }
 
 };

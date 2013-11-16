@@ -19,6 +19,10 @@ Install dependencies:
 
     $ npm install
 
+Configure database in `config/database.js` and migrate:
+
+    $ grunt migrate
+
 Start the server:
 
     $ node index

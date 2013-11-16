@@ -2,6 +2,7 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha-cli');
+    grunt.loadNpmTasks('grunt-exec');
 
 
     grunt.initConfig({
@@ -27,10 +28,22 @@ module.exports = function(grunt) {
             },
 
             all: ['test/*.js']
+        },
+
+        exec: {
+            migrate: {
+                cmd: function(direction) {
+                    return './node_modules/.bin/migrate -c ./ ' + direction;
+                }
+            }
         }
 
     });
 
+
+    grunt.registerTask('migrate',      'exec:migrate:up');
+    grunt.registerTask('migrate:up',   'exec:migrate:up');
+    grunt.registerTask('migrate:down', 'exec:migrate:down');
 
     grunt.registerTask('test', ['jshint', 'mochacli']);
 
