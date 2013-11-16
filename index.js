@@ -18,7 +18,8 @@ app.use(express.logger('dev'));
 app.use(app.router);
 
 // Define routes
-app.get('/cinemas', cinemas.list);
+app.get('/cinemas',    cinemas.list);
+app.get('/cinema/:id', cinemas.single);
 
 // If this is being required as a module, export the app and return before
 // starting the HTTP server

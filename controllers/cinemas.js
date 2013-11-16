@@ -14,5 +14,14 @@ cinemas.list = function listCinemas(req, res) {
     res.json(data);
 };
 
+cinemas.single = function singleCinema(req, res) {
+    var data = {
+        status: 'success',
+        cinema: {}
+    };
+
+    res.json(data);
+};
+
 
 module.exports = cinemas;
