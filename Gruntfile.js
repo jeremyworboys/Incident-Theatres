@@ -33,7 +33,7 @@ module.exports = function(grunt) {
         exec: {
             migrate: {
                 cmd: function(direction) {
-                    return './node_modules/.bin/migrate -c ./ ' + direction;
+                    return './node_modules/.bin/migrate -c ./app ' + direction;
                 }
             }
         }

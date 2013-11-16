@@ -7,7 +7,7 @@ var chai = require('chai');
 var request = require('supertest');
 var expect = chai.expect;
 
-var app = require('../');
+var app = require('../app');
 
 
 describe('Incident Theatres', function() {
