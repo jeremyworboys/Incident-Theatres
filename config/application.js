@@ -1,6 +1,7 @@
 /**
  * Application Config
  * Configuration settings to be applied to the Express application
+ * @copyright 2013 Jeremy Worboys
  */
 
 var express = require('express');

@@ -1,6 +1,7 @@
 /**
  * Cinema Model
  * Interacts with the database to retrieve cinema data
+ * @copyright 2013 Jeremy Worboys
  */
 
 module.exports = function(db) {

@@ -1,6 +1,7 @@
 /**
  * Database Configuration
  * Configuration for connecting to the database
+ * @copyright 2013 Jeremy Worboys
  */
 
 module.exports = {

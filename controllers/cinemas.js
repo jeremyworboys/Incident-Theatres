@@ -1,5 +1,6 @@
 /**
  * Cinemas Controller
+ * Defines cinema related route endpoints
  * @copyright 2013 Jeremy Worboys
  */
 
