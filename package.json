@@ -1,0 +1,18 @@
+{
+  "name": "incident-theatres",
+  "version": "0.0.0",
+  "description": "An example movie cinema guide API written in NodeJS",
+  "private": true,
+  "scripts": {
+    "start": "node index",
+    "test": "grunt test"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jeremyworboys/Incident-Theatres.git"
+  },
+  "license": "MIT",
+  "readme": "README.md"
+}
