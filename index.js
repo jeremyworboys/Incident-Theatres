@@ -5,6 +5,7 @@
  */
 
 var express = require('express');
+var cinemas = require('./controllers/cinemas');
 
 // Create application
 var app = express();
@@ -17,6 +18,11 @@ app.use(express.logger('dev'));
 app.use(app.router);
 
 // Define routes
+app.get('/cinemas', cinemas.list);
+
+// If this is being required as a module, export the app and return before
+// starting the HTTP server
+if (module.parent) return (module.exports = app);
 
 // Start server
 app.listen(app.get('port'), function() {
