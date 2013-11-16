@@ -41,9 +41,10 @@ module.exports = function(grunt) {
     });
 
 
-    grunt.registerTask('migrate',      'exec:migrate:up');
-    grunt.registerTask('migrate:up',   'exec:migrate:up');
-    grunt.registerTask('migrate:down', 'exec:migrate:down');
+    grunt.registerTask('migrate',       ['exec:migrate:up']);
+    grunt.registerTask('migrate:up',    ['exec:migrate:up']);
+    grunt.registerTask('migrate:down',  ['exec:migrate:down']);
+    grunt.registerTask('migrate:reset', ['exec:migrate:down', 'exec:migrate:up']);
 
     grunt.registerTask('test', ['jshint', 'mochacli']);
 
