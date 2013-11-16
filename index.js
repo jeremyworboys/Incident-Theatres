@@ -17,7 +17,9 @@ var app = express();
 configure(app);
 
 // Define models
-var defineModels = function(db, models) {};
+var defineModels = function(db, models) {
+    models.cinema = require('./models/cinema')(db);
+};
 
 // Define middleware stack
 app.use(orm.express(dbConfig, { define: defineModels }));
