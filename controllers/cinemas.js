@@ -6,21 +6,17 @@
 var cinemas = {};
 
 cinemas.list = function listCinemas(req, res) {
-    var data = {
+    res.json({
         status: 'success',
         cinemas: []
-    };
-
-    res.json(data);
+    });
 };
 
 cinemas.single = function singleCinema(req, res) {
-    var data = {
+    res.json({
         status: 'success',
         cinema: {}
-    };
-
-    res.json(data);
+    });
 };
 
 
