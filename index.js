@@ -5,16 +5,16 @@
  */
 
 var express = require('express');
+var configure = require('./config/application');
 var cinemas = require('./controllers/cinemas');
 
 // Create application
 var app = express();
 
 // Configure application
-app.set('port', 3000);
+configure(app);
 
 // Define middleware stack
-app.use(express.logger('dev'));
 app.use(app.router);
 
 // Define routes
