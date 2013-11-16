@@ -1,0 +1,17 @@
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+pids
+logs
+results
+
+lib-cov
+coverage.html
+
+npm-debug.log
+node_modules
