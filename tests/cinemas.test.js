@@ -57,6 +57,18 @@ describe('Incident Theatres', function() {
                 });
         });
 
+        it.only('should return the list of cinemas retrieved from the db', function(done) {
+            var cinemas = [{id:1}, {id:2}, {id:3}];
+            findCinemas.callbackArguments = [[null, cinemas]];
+
+            request(app)
+                .get('/cinemas')
+                .end(function(err, res) {
+                    expect(res.body.data.cinemas).to.deep.equal(cinemas);
+                    done(err);
+                });
+        });
+
     });
 
     describe('/cinema/:id', function() {
