@@ -11,6 +11,7 @@ var expect = chai.expect;
 chai.use(sinonChai);
 
 var app = require('../app');
+var ormErrors = require('orm/lib/ErrorCodes');
 var fakes = sinon.sandbox.create();
 
 describe('Incident Theatres', function() {
@@ -118,6 +119,23 @@ describe('Incident Theatres', function() {
                 .get('/cinema/1')
                 .end(function(err, res) {
                     expect(res.body.data.cinema).to.deep.equal(cinema);
+                    done(err);
+                });
+        });
+
+        it('should return a 404 error if the id doesn\'t exist', function(done) {
+            var err = new Error('Not found');
+            err.code = ormErrors.NOT_FOUND;
+            getCinema.callbackArguments = [[err]];
+
+            request(app)
+                .get('/cinema/1')
+                .expect(404)
+                .end(function(err, res) {
+                    expect(res.body.status).to.equal('error');
+                    expect(res.body.code).to.equal(404);
+                    expect(res.body.message).to.equal('Not found');
+                    expect(res.body.data).to.not.exist;
                     done(err);
                 });
         });
