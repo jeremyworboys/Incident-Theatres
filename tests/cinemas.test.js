@@ -72,6 +72,11 @@ describe('Incident Theatres', function() {
     });
 
     describe('/cinema/:id', function() {
+        var getCinema;
+
+        beforeEach(function() {
+            getCinema = fakes.stub(app.models.cinema, 'find').yields(null, {});
+        });
 
         it('should return json', function(done) {
             request(app)
