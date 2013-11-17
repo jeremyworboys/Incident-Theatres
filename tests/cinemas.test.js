@@ -42,7 +42,7 @@ describe('Incident Theatres', function() {
         });
 
         it('should make a single request to db.find() with no constraints', function(done) {
-            var findCinemas = fakes.stub(app.models.cinema, 'find').yields();
+            var findCinemas = fakes.stub(app.models.cinema, 'find').yields(null, []);
 
             request(app)
                 .get('/cinemas')
