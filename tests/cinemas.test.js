@@ -14,7 +14,7 @@ describe('Incident Theatres', function() {
 
     describe('/cinemas', function() {
 
-        it('should return a return a valid jsend response', function(done) {
+        it('should return a valid jsend response', function(done) {
             request(app)
                 .get('/cinemas')
                 .expect(200)
@@ -31,7 +31,7 @@ describe('Incident Theatres', function() {
 
     describe('/cinema/1', function() {
 
-        it('should return a return a valid jsend response', function(done) {
+        it('should return a valid jsend response', function(done) {
             request(app)
                 .get('/cinema/1')
                 .expect(200)
