@@ -14,11 +14,16 @@ describe('Incident Theatres', function() {
 
     describe('/cinemas', function() {
 
-        it('should return a valid jsend response', function(done) {
+        it('should return json', function(done) {
             request(app)
                 .get('/cinemas')
-                .expect(200)
                 .expect('content-type', /json/)
+                .expect(200, done);
+        });
+
+        it('should follow jsend spec', function(done) {
+            request(app)
+                .get('/cinemas')
                 .end(function(err, res) {
                     expect(res.body.status).to.equal('success');
                     expect(res.body.cinemas).to.exist;
@@ -29,13 +34,18 @@ describe('Incident Theatres', function() {
 
     });
 
-    describe('/cinema/1', function() {
+    describe('/cinema/:id', function() {
 
-        it('should return a valid jsend response', function(done) {
+        it('should return json', function(done) {
             request(app)
                 .get('/cinema/1')
-                .expect(200)
                 .expect('content-type', /json/)
+                .expect(200, done);
+        });
+
+        it('should follow jsend spec', function(done) {
+            request(app)
+                .get('/cinema/1')
                 .end(function(err, res) {
                     expect(res.body.status).to.equal('success');
                     expect(res.body.cinema).to.exist;
