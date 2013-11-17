@@ -20,6 +20,11 @@ describe('Incident Theatres', function() {
     });
 
     describe('/cinemas', function() {
+        var findCinemas;
+
+        beforeEach(function() {
+            findCinemas = fakes.stub(app.models.cinema, 'find').yields(null, []);
+        });
 
         it('should return json', function(done) {
             request(app)
@@ -42,8 +47,6 @@ describe('Incident Theatres', function() {
         });
 
         it('should make a single request to db.find() with no constraints', function(done) {
-            var findCinemas = fakes.stub(app.models.cinema, 'find').yields(null, []);
-
             request(app)
                 .get('/cinemas')
                 .end(function(err) {
