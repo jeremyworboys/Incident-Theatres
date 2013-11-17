@@ -6,7 +6,7 @@
 
 var orm = require('orm');
 var express = require('express');
-var configure = require('./config/application');
+var appConfig = require('./config/application');
 var dbConfig = require('./config/database');
 var cinemas = require('./controllers/cinemas');
 
@@ -14,7 +14,7 @@ var cinemas = require('./controllers/cinemas');
 var app = module.exports = express();
 
 // Configure application
-configure(app);
+appConfig(app);
 
 // Define models
 var defineModels = function(db, models) {
