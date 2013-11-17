@@ -7,9 +7,11 @@
 var cinemas = {};
 
 cinemas.list = function listCinemas(req, res) {
-    res.json({
-        status: 'success',
-        cinemas: []
+    req.models.cinema.find(function(err, cinemas) {
+        res.json({
+            status: 'success',
+            cinemas: cinemas
+        });
     });
 };
 

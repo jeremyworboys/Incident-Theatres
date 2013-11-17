@@ -5,12 +5,19 @@
 
 var chai = require('chai');
 var request = require('supertest');
+var sinon = require('sinon');
+var sinonChai = require('sinon-chai');
 var expect = chai.expect;
+chai.use(sinonChai);
 
 var app = require('../app');
-
+var fakes = sinon.sandbox.create();
 
 describe('Incident Theatres', function() {
+
+    afterEach(function() {
+        fakes.restore();
+    });
 
     describe('/cinemas', function() {
 
@@ -28,6 +35,19 @@ describe('Incident Theatres', function() {
                     expect(res.body.status).to.equal('success');
                     expect(res.body.cinemas).to.exist;
                     expect(res.body.cinemas).to.be.a('array');
+                    done(err);
+                });
+        });
+
+        it('should make a single request to db.find() with no constraints', function(done) {
+            var findCinemas = fakes.stub(app.models.cinema, 'find').yields();
+
+            request(app)
+                .get('/cinemas')
+                .end(function(err) {
+                    expect(findCinemas).to.be.calledOnce;
+                    expect(findCinemas.getCall(0).args).to.have.length(1);
+                    expect(findCinemas.getCall(0).args[0]).to.be.a('function');
                     done(err);
                 });
         });
