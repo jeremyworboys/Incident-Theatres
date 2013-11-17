@@ -17,12 +17,17 @@ var app = module.exports = express();
 appConfig(app);
 
 // Define models
-var defineModels = function(db, models) {
-    models.cinema = require('./models/cinema')(db);
+app.models = {};
+orm.connect(dbConfig, function(err, db) {
+    app.models.cinema = require('./models/cinema')(db);
+});
+var modelsMiddleware = function(req, res, next) {
+    req.models = app.models;
+    next();
 };
 
 // Define middleware stack
-app.use(orm.express(dbConfig, { define: defineModels }));
+app.use(modelsMiddleware);
 app.use(app.router);
 
 // Define routes
