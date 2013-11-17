@@ -33,8 +33,10 @@ describe('Incident Theatres', function() {
                 .get('/cinemas')
                 .end(function(err, res) {
                     expect(res.body.status).to.equal('success');
-                    expect(res.body.cinemas).to.exist;
-                    expect(res.body.cinemas).to.be.a('array');
+                    expect(res.body.data).to.exist;
+                    expect(res.body.data).to.be.a('object');
+                    expect(res.body.data.cinemas).to.exist;
+                    expect(res.body.data.cinemas).to.be.a('array');
                     done(err);
                 });
         });
@@ -68,8 +70,10 @@ describe('Incident Theatres', function() {
                 .get('/cinema/1')
                 .end(function(err, res) {
                     expect(res.body.status).to.equal('success');
-                    expect(res.body.cinema).to.exist;
-                    expect(res.body.cinema).to.be.a('object');
+                    expect(res.body.data).to.exist;
+                    expect(res.body.data).to.be.a('object');
+                    expect(res.body.data.cinema).to.exist;
+                    expect(res.body.data.cinema).to.be.a('object');
                     done(err);
                 });
         });

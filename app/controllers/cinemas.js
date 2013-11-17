@@ -10,7 +10,9 @@ cinemas.list = function listCinemas(req, res) {
     req.models.cinema.find(function(err, cinemas) {
         res.json({
             status: 'success',
-            cinemas: cinemas
+            data: {
+                cinemas: cinemas
+            }
         });
     });
 };
@@ -18,7 +20,9 @@ cinemas.list = function listCinemas(req, res) {
 cinemas.single = function singleCinema(req, res) {
     res.json({
         status: 'success',
-        cinema: {}
+        data: {
+            cinema: {}
+        }
     });
 };
 
