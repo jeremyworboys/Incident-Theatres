@@ -5,35 +5,26 @@
  */
 
 var cinemas = {};
-var ormErrors = require('orm/lib/ErrorCodes');
 
-cinemas.list = function listCinemas(req, res) {
+cinemas.list = function listCinemas(req, res, next) {
     req.models.cinema.find(function(err, cinemas) {
+        if (err) return next(err);
+
         res.json({
             status: 'success',
-            data: {
-                cinemas: cinemas
-            }
+            data: { cinemas: cinemas }
         });
     });
 };
 
-cinemas.single = function singleCinema(req, res) {
+cinemas.single = function singleCinema(req, res, next) {
     req.models.cinema.get(req.params.id, function(err, cinema) {
-        var data = {};
+        if (err) return next(err);
 
-        if (err && err.code === ormErrors.NOT_FOUND) {
-            data.status = 'error';
-            data.code = 404;
-            data.message = err.message;
-            res.status(404);
-        }
-        else {
-            data.status = 'success';
-            data.data = { cinema: cinema };
-        }
-
-        res.json(data);
+        res.json({
+            status: 'success',
+            data: { cinema: cinema }
+        });
     });
 };
 
