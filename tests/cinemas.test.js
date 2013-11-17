@@ -142,4 +142,126 @@ describe('Incident Theatres', function() {
 
     });
 
+    describe('/movies', function() {
+        var findMovies;
+
+        beforeEach(function() {
+            findMovies = fakes.stub(app.models.movie, 'find').yields(null, []);
+        });
+
+        it('should return json', function(done) {
+            request(app)
+                .get('/movies')
+                .expect('content-type', /json/)
+                .expect(200, done);
+        });
+
+        it('should follow jsend spec', function(done) {
+            request(app)
+                .get('/movies')
+                .end(function(err, res) {
+                    expect(res.body.status).to.equal('success');
+                    expect(res.body.data).to.exist;
+                    expect(res.body.data).to.be.a('object');
+                    expect(res.body.data.movies).to.exist;
+                    expect(res.body.data.movies).to.be.a('array');
+                    done(err);
+                });
+        });
+
+        it('should make a single request to db.find() with no constraints', function(done) {
+            request(app)
+                .get('/movies')
+                .end(function(err) {
+                    expect(findMovies).to.be.calledOnce;
+                    expect(findMovies.getCall(0).args).to.have.length(1);
+                    expect(findMovies.getCall(0).args[0]).to.be.a('function');
+                    done(err);
+                });
+        });
+
+        it('should return the list of movies retrieved from the db', function(done) {
+            var movies = [{id:1}, {id:2}, {id:3}];
+            findMovies.callbackArguments = [[null, movies]];
+
+            request(app)
+                .get('/movies')
+                .end(function(err, res) {
+                    expect(res.body.data.movies).to.deep.equal(movies);
+                    done(err);
+                });
+        });
+
+    });
+
+    describe('/movie/:id', function() {
+        var getMovie;
+
+        beforeEach(function() {
+            getMovie = fakes.stub(app.models.movie, 'get').yields(null, {});
+        });
+
+        it('should return json', function(done) {
+            request(app)
+                .get('/movie/1')
+                .expect('content-type', /json/)
+                .expect(200, done);
+        });
+
+        it('should follow jsend spec', function(done) {
+            request(app)
+                .get('/movie/1')
+                .end(function(err, res) {
+                    expect(res.body.status).to.equal('success');
+                    expect(res.body.data).to.exist;
+                    expect(res.body.data).to.be.a('object');
+                    expect(res.body.data.movie).to.exist;
+                    expect(res.body.data.movie).to.be.a('object');
+                    done(err);
+                });
+        });
+
+        it('should make a single request to db.get() with the movie id', function(done) {
+            request(app)
+                .get('/movie/1')
+                .end(function(err) {
+                    expect(getMovie).to.be.calledOnce;
+                    expect(getMovie.getCall(0).args).to.have.length(2);
+                    expect(getMovie.getCall(0).args[0]).to.equal('1');
+                    expect(getMovie.getCall(0).args[1]).to.be.a('function');
+                    done(err);
+                });
+        });
+
+        it('should return the movie retrieved from the db', function(done) {
+            var movie = {id:1};
+            getMovie.callbackArguments = [[null, movie]];
+
+            request(app)
+                .get('/movie/1')
+                .end(function(err, res) {
+                    expect(res.body.data.movie).to.deep.equal(movie);
+                    done(err);
+                });
+        });
+
+        it('should return a 404 error if the id doesn\'t exist', function(done) {
+            var err = new Error('Not found');
+            err.code = ormErrors.NOT_FOUND;
+            getMovie.callbackArguments = [[err]];
+
+            request(app)
+                .get('/movie/1')
+                .expect(404)
+                .end(function(err, res) {
+                    expect(res.body.status).to.equal('error');
+                    expect(res.body.code).to.equal(404);
+                    expect(res.body.message).to.equal('Not found');
+                    expect(res.body.data).to.not.exist;
+                    done(err);
+                });
+        });
+
+    });
+
 });

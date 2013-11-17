@@ -10,6 +10,7 @@ var express = require('express');
 var appConfig = require('./config/application');
 var dbConfig = require('./config/database');
 var cinemas = require('./controllers/cinemas');
+var movies = require('./controllers/movies');
 
 // Create application
 var app = module.exports = express();
@@ -21,6 +22,7 @@ appConfig(app);
 app.models = {};
 orm.connect(dbConfig, function(err, db) {
     app.models.cinema = require('./models/cinema')(db);
+    app.models.movie  = require('./models/movie')(db);
 });
 var modelsMiddleware = function(req, res, next) {
     req.models = app.models;
@@ -59,3 +61,5 @@ app.use(errHandler);
 // Define routes
 app.get('/cinemas',    cinemas.list);
 app.get('/cinema/:id', cinemas.single);
+app.get('/movies',     movies.list);
+app.get('/movie/:id',  movies.single);
