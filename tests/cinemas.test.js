@@ -57,7 +57,7 @@ describe('Incident Theatres', function() {
                 });
         });
 
-        it.only('should return the list of cinemas retrieved from the db', function(done) {
+        it('should return the list of cinemas retrieved from the db', function(done) {
             var cinemas = [{id:1}, {id:2}, {id:3}];
             findCinemas.callbackArguments = [[null, cinemas]];
 
@@ -75,7 +75,7 @@ describe('Incident Theatres', function() {
         var getCinema;
 
         beforeEach(function() {
-            getCinema = fakes.stub(app.models.cinema, 'find').yields(null, {});
+            getCinema = fakes.stub(app.models.cinema, 'get').yields(null, {});
         });
 
         it('should return json', function(done) {
@@ -94,6 +94,30 @@ describe('Incident Theatres', function() {
                     expect(res.body.data).to.be.a('object');
                     expect(res.body.data.cinema).to.exist;
                     expect(res.body.data.cinema).to.be.a('object');
+                    done(err);
+                });
+        });
+
+        it('should make a single request to db.get() with the cinema id', function(done) {
+            request(app)
+                .get('/cinema/1')
+                .end(function(err) {
+                    expect(getCinema).to.be.calledOnce;
+                    expect(getCinema.getCall(0).args).to.have.length(2);
+                    expect(getCinema.getCall(0).args[0]).to.equal('1');
+                    expect(getCinema.getCall(0).args[1]).to.be.a('function');
+                    done(err);
+                });
+        });
+
+        it('should return the cinema retrieved from the db', function(done) {
+            var cinema = {id:1};
+            getCinema.callbackArguments = [[null, cinema]];
+
+            request(app)
+                .get('/cinema/1')
+                .end(function(err, res) {
+                    expect(res.body.data.cinema).to.deep.equal(cinema);
                     done(err);
                 });
         });

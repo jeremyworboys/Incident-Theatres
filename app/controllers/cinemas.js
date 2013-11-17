@@ -18,11 +18,13 @@ cinemas.list = function listCinemas(req, res) {
 };
 
 cinemas.single = function singleCinema(req, res) {
-    res.json({
-        status: 'success',
-        data: {
-            cinema: {}
-        }
+    req.models.cinema.get(req.params.id, function(err, cinema) {
+        res.json({
+            status: 'success',
+            data: {
+                cinema: cinema
+            }
+        });
     });
 };
 
