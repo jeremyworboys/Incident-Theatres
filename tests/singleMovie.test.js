@@ -5,23 +5,11 @@
 
 var chai = require('chai');
 var request = require('supertest');
-var sinon = require('sinon');
 var expect = chai.expect;
-
-chai.use(require('sinon-chai'));
 
 var app = require('../app');
 
 describe('Single Movie', function() {
-    var getMovie;
-
-    beforeEach(function() {
-        getMovie = sinon.spy(app.models.movie, 'get');
-    });
-
-    afterEach(function() {
-        getMovie.restore();
-    });
 
     describe('/movie/:id', function() {
 
@@ -41,18 +29,6 @@ describe('Single Movie', function() {
                     expect(res.body.data).to.be.a('object');
                     expect(res.body.data.movie).to.exist;
                     expect(res.body.data.movie).to.be.a('object');
-                    done(err);
-                });
-        });
-
-        it('should make a single request to db.get() with the movie id', function(done) {
-            request(app)
-                .get('/movie/1')
-                .end(function(err) {
-                    expect(getMovie).to.be.calledOnce;
-                    expect(getMovie.getCall(0).args).to.have.length(2);
-                    expect(getMovie.getCall(0).args[0]).to.equal('1');
-                    expect(getMovie.getCall(0).args[1]).to.be.a('function');
                     done(err);
                 });
         });

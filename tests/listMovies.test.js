@@ -5,23 +5,11 @@
 
 var chai = require('chai');
 var request = require('supertest');
-var sinon = require('sinon');
 var expect = chai.expect;
-
-chai.use(require('sinon-chai'));
 
 var app = require('../app');
 
 describe('List Movies', function() {
-    var findMovies;
-
-    beforeEach(function() {
-        findMovies = sinon.spy(app.models.movie, 'find');
-    });
-
-    afterEach(function() {
-        findMovies.restore();
-    });
 
     describe('/movies', function() {
 
@@ -41,17 +29,6 @@ describe('List Movies', function() {
                     expect(res.body.data).to.be.a('object');
                     expect(res.body.data.movies).to.exist;
                     expect(res.body.data.movies).to.be.a('array');
-                    done(err);
-                });
-        });
-
-        it('should make a single request to db.find() with no constraints', function(done) {
-            request(app)
-                .get('/movies')
-                .end(function(err) {
-                    expect(findMovies).to.be.calledOnce;
-                    expect(findMovies.getCall(0).args).to.have.length(1);
-                    expect(findMovies.getCall(0).args[0]).to.be.a('function');
                     done(err);
                 });
         });
