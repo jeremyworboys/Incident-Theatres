@@ -46,6 +46,11 @@ module.exports = function(grunt) {
     grunt.registerTask('migrate:down',  ['exec:migrate:down']);
     grunt.registerTask('migrate:reset', ['exec:migrate:down', 'exec:migrate:up']);
 
+    grunt.registerTask('seed', function() {
+        var done = this.async();
+        require('./app/seed').run(done);
+    });
+
     grunt.registerTask('test', ['jshint', 'mochacli']);
 
     grunt.registerTask('default', ['test']);

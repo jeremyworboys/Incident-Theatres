@@ -19,9 +19,9 @@ Install dependencies:
 
     $ npm install
 
-Configure database in `config/database.js` and migrate:
+Configure database in `config/database.js` then migrate and seed:
 
-    $ grunt migrate
+    $ grunt migrate seed
 
 Start the server:
 
@@ -33,6 +33,10 @@ Start the server:
 To run the test suite first invoke the following command within the repo, installing the development dependencies:
 
     $ npm install
+
+Configure database in `config/database.js` then migrate and seed:
+
+    $ grunt migrate seed
 
 then run the tests:
 
