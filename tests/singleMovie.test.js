@@ -6,23 +6,21 @@
 var chai = require('chai');
 var request = require('supertest');
 var sinon = require('sinon');
-var sinonChai = require('sinon-chai');
 var expect = chai.expect;
-chai.use(sinonChai);
+
+chai.use(require('sinon-chai'));
 
 var app = require('../app');
-var ormErrors = require('orm/lib/ErrorCodes');
-var fakes = sinon.sandbox.create();
 
 describe('Single Movie', function() {
     var getMovie;
 
     beforeEach(function() {
-        getMovie = fakes.stub(app.models.movie, 'get').yields(null, {});
+        getMovie = sinon.spy(app.models.movie, 'get');
     });
 
     afterEach(function() {
-        fakes.restore();
+        getMovie.restore();
     });
 
     describe('/movie/:id', function() {
@@ -60,24 +58,19 @@ describe('Single Movie', function() {
         });
 
         it('should return the movie retrieved from the db', function(done) {
-            var movie = {id:1};
-            getMovie.callbackArguments = [[null, movie]];
-
             request(app)
                 .get('/movie/1')
                 .end(function(err, res) {
-                    expect(res.body.data.movie).to.deep.equal(movie);
+                    expect(res.body.data.movie.id).to.equal(1);
+                    expect(res.body.data.movie.title).to.equal('2 Guns');
+                    expect(res.body.data.movie.runtime).to.equal(109);
                     done(err);
                 });
         });
 
         it('should return a 404 error if the id doesn\'t exist', function(done) {
-            var err = new Error('Not found');
-            err.code = ormErrors.NOT_FOUND;
-            getMovie.callbackArguments = [[err]];
-
             request(app)
-                .get('/movie/1')
+                .get('/movie/10000')
                 .expect(404)
                 .end(function(err, res) {
                     expect(res.body.status).to.equal('error');

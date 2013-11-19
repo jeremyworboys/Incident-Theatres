@@ -6,22 +6,21 @@
 var chai = require('chai');
 var request = require('supertest');
 var sinon = require('sinon');
-var sinonChai = require('sinon-chai');
 var expect = chai.expect;
-chai.use(sinonChai);
+
+chai.use(require('sinon-chai'));
 
 var app = require('../app');
-var fakes = sinon.sandbox.create();
 
 describe('List Cinemas', function() {
     var findCinemas;
 
     beforeEach(function() {
-        findCinemas = fakes.stub(app.models.cinema, 'find').yields(null, []);
+        findCinemas = sinon.spy(app.models.cinema, 'find');
     });
 
     afterEach(function() {
-        fakes.restore();
+        findCinemas.restore();
     });
 
     describe('/cinemas', function() {
@@ -58,13 +57,13 @@ describe('List Cinemas', function() {
         });
 
         it('should return the list of cinemas retrieved from the db', function(done) {
-            var cinemas = [{id:1}, {id:2}, {id:3}];
-            findCinemas.callbackArguments = [[null, cinemas]];
-
             request(app)
                 .get('/cinemas')
                 .end(function(err, res) {
-                    expect(res.body.data.cinemas).to.deep.equal(cinemas);
+                    expect(res.body.data.cinemas).to.have.length(60);
+                    expect(res.body.data.cinemas[0].id).to.equal(1);
+                    expect(res.body.data.cinemas[0].name).to.equal('Greater Union');
+                    expect(res.body.data.cinemas[0].suburb).to.equal('Manuka');
                     done(err);
                 });
         });

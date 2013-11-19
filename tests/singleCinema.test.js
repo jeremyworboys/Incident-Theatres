@@ -6,23 +6,21 @@
 var chai = require('chai');
 var request = require('supertest');
 var sinon = require('sinon');
-var sinonChai = require('sinon-chai');
 var expect = chai.expect;
-chai.use(sinonChai);
+
+chai.use(require('sinon-chai'));
 
 var app = require('../app');
-var ormErrors = require('orm/lib/ErrorCodes');
-var fakes = sinon.sandbox.create();
 
 describe('Single Cinema', function() {
     var getCinema;
 
     beforeEach(function() {
-        getCinema = fakes.stub(app.models.cinema, 'get').yields(null, {});
+        getCinema = sinon.spy(app.models.cinema, 'get');
     });
 
     afterEach(function() {
-        fakes.restore();
+        getCinema.restore();
     });
 
     describe('/cinema/:id', function() {
@@ -60,24 +58,19 @@ describe('Single Cinema', function() {
         });
 
         it('should return the cinema retrieved from the db', function(done) {
-            var cinema = {id:1};
-            getCinema.callbackArguments = [[null, cinema]];
-
             request(app)
                 .get('/cinema/1')
                 .end(function(err, res) {
-                    expect(res.body.data.cinema).to.deep.equal(cinema);
+                    expect(res.body.data.cinema.id).to.equal(1);
+                    expect(res.body.data.cinema.name).to.equal('Greater Union');
+                    expect(res.body.data.cinema.suburb).to.equal('Manuka');
                     done(err);
                 });
         });
 
         it('should return a 404 error if the id doesn\'t exist', function(done) {
-            var err = new Error('Not found');
-            err.code = ormErrors.NOT_FOUND;
-            getCinema.callbackArguments = [[err]];
-
             request(app)
-                .get('/cinema/1')
+                .get('/cinema/10000')
                 .expect(404)
                 .end(function(err, res) {
                     expect(res.body.status).to.equal('error');
