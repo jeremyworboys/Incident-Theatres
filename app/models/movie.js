@@ -8,7 +8,7 @@ module.exports.define = function(db) {
 
     return db.define('movie', {
         title:          String,
-        classification: 'enum',
+        classification: { type: 'enum', values: ['CTC', 'G', 'PG', 'M', 'MA15+', 'R18+'] },
         coverurl:       String,
         synopsis:       String,
         runtime:        Number,
