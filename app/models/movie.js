@@ -21,6 +21,6 @@ module.exports.define = function(db) {
 
 module.exports.associations = function(db) {
 
-    db.models.movie.hasMany('cinemas', db.models.cinema, {}, { mergeTable: 'cinema_movies' });
+    db.models.movie.hasMany('cinemas', db.models.cinema, {}, { mergeTable: 'cinemas_movies' });
 
 };

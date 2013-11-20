@@ -28,5 +28,20 @@ movies.single = function singleMovie(req, res, next) {
     });
 };
 
+movies.listCinemas = function listMovieCinemas(req, res, next) {
+    req.models.movie.get(req.params.id, function(err, movie) {
+        if (err) return next(err);
+
+        movie.getCinemas(function(err, cinemas) {
+            if (err) return next(err);
+
+            res.json({
+                status: 'success',
+                data: { cinemas: cinemas }
+            });
+        });
+    });
+};
+
 
 module.exports = movies;
