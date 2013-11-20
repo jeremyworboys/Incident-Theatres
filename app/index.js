@@ -29,8 +29,8 @@ orm.connect(dbConfig, function(err, db) {
     app.models.movie  = movie.define(db);
 
     // Setup associations
-    app.models.cinema.associations(db);
-    app.models.movie.associations(db);
+    cinema.associations(db);
+    movie.associations(db);
 });
 var modelsMiddleware = function(req, res, next) {
     req.models = app.models;
@@ -67,7 +67,8 @@ app.use(app.router);
 app.use(errHandler);
 
 // Define routes
-app.get('/cinemas',    cinemas.list);
-app.get('/cinema/:id', cinemas.single);
-app.get('/movies',     movies.list);
-app.get('/movie/:id',  movies.single);
+app.get('/cinemas',           cinemas.list);
+app.get('/cinema/:id',        cinemas.single);
+app.get('/cinema/:id/movies', cinemas.listMovies);
+app.get('/movies',            movies.list);
+app.get('/movie/:id',         movies.single);
