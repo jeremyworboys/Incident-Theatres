@@ -11,7 +11,7 @@ module.exports = function(db) {
         classification: 'enum',
         coverurl:       String,
         synopsis:       String,
-        length:         Number,
+        runtime:        Number,
         director:       String
     }, {
         table: 'movies'
