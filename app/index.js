@@ -21,8 +21,16 @@ appConfig(app);
 // Define models
 app.models = {};
 orm.connect(dbConfig, function(err, db) {
-    app.models.cinema = require('./models/cinema')(db);
-    app.models.movie  = require('./models/movie')(db);
+    var cinema = require('./models/cinema');
+    var movie  = require('./models/movie');
+
+    // Define all models
+    app.models.cinema = cinema.define(db);
+    app.models.movie  = movie.define(db);
+
+    // Setup associations
+    app.models.cinema.associations(db);
+    app.models.movie.associations(db);
 });
 var modelsMiddleware = function(req, res, next) {
     req.models = app.models;

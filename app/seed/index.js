@@ -13,8 +13,8 @@ var truncate = function(db, table, done) {
 
 module.exports.run = function(done) {
     orm.connect(dbConfig, function(err, db) {
-        var cinema = require('../models/cinema')(db);
-        var movie  = require('../models/movie')(db);
+        var cinema = require('../models/cinema').define(db);
+        var movie  = require('../models/movie').define(db);
 
         async.series([
             // Truncate tables

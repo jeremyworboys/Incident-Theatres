@@ -4,7 +4,7 @@
  * @copyright 2013 Jeremy Worboys
  */
 
-module.exports = function(db) {
+module.exports.define = function(db) {
 
     return db.define('cinema', {
         name:      String,
@@ -20,3 +20,10 @@ module.exports = function(db) {
     });
 
 };
+
+module.exports.associations = function(db) {
+
+    db.models.cinema.hasMany('movies', db.models.movie, {}, { mergeTable: 'cinemas_movies' });
+
+};
+
