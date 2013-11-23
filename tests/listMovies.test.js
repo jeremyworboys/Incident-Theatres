@@ -79,6 +79,33 @@ describe('List Movies', function() {
                 });
         });
 
+        it('should allow searching min-runtime', function(done) {
+            request(app)
+                .get('/movies?min-runtime=120')
+                .end(function(err, res) {
+                    expect(res.body.data.movies).to.have.length(14);
+                    done(err);
+                });
+        });
+
+        it('should allow searching max-runtime', function(done) {
+            request(app)
+                .get('/movies?max-runtime=120')
+                .end(function(err, res) {
+                    expect(res.body.data.movies).to.have.length(15);
+                    done(err);
+                });
+        });
+
+        it('should allow searching with both min- and max-runtime', function(done) {
+            request(app)
+                .get('/movies?min-runtime=100&max-runtime=120')
+                .end(function(err, res) {
+                    expect(res.body.data.movies).to.have.length(8);
+                    done(err);
+                });
+        });
+
     });
 
 });
