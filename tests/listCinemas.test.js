@@ -45,6 +45,40 @@ describe('List Cinemas', function() {
                 });
         });
 
+        it('should allow searching by name', function(done) {
+            request(app)
+                .get('/cinemas?name=Incident')
+                .end(function(err, res) {
+                    expect(res.body.data.cinemas).to.have.length(28);
+                    res.body.data.cinemas.forEach(function(cinema) {
+                        expect(cinema.name).to.contain('Incident');
+                    });
+                    done(err);
+                });
+        });
+
+        it('should allow searching by multiple columns', function(done) {
+            request(app)
+                .get('/cinemas?name=incident&state=nsw')
+                .end(function(err, res) {
+                    expect(res.body.data.cinemas).to.have.length(14);
+                    res.body.data.cinemas.forEach(function(cinema) {
+                        expect(cinema.name).to.contain('Incident');
+                        expect(cinema.state).to.contain('NSW');
+                    });
+                    done(err);
+                });
+        });
+
+        it('should ignore searches for non-searchable columns', function(done) {
+            request(app)
+                .get('/cinemas?street1=street')
+                .end(function(err, res) {
+                    expect(res.body.data.cinemas).to.have.length(60);
+                    done(err);
+                });
+        });
+
     });
 
 });

@@ -4,10 +4,19 @@
  * @copyright 2013 Jeremy Worboys
  */
 
+var orm = require('orm');
+
 var cinemas = {};
+var searchable = ['name', 'suburb', 'state', 'postcode'];
 
 cinemas.list = function listCinemas(req, res, next) {
-    req.models.cinema.find(function(err, cinemas) {
+    var conds = {};
+    for (var key in req.query) {
+        if (searchable.indexOf(key) === -1) continue;
+        conds[key] = orm.like('%' + req.query[key] + '%');
+    }
+
+    req.models.cinema.find(conds, function(err, cinemas) {
         if (err) return next(err);
 
         res.json({
