@@ -45,6 +45,40 @@ describe('List Movies', function() {
                 });
         });
 
+        it('should allow searching by title', function(done) {
+            request(app)
+                .get('/movies?title=one')
+                .end(function(err, res) {
+                    expect(res.body.data.movies).to.have.length(2);
+                    res.body.data.movies.forEach(function(movie) {
+                        expect(movie.title.toLowerCase()).to.contain('one');
+                    });
+                    done(err);
+                });
+        });
+
+        it('should allow searching by multiple columns', function(done) {
+            request(app)
+                .get('/movies?title=the&classification=m')
+                .end(function(err, res) {
+                    expect(res.body.data.movies).to.have.length(6);
+                    res.body.data.movies.forEach(function(movie) {
+                        expect(movie.title.toLowerCase()).to.contain('the');
+                        expect(movie.classification).to.equal('M');
+                    });
+                    done(err);
+                });
+        });
+
+        it('should ignore searches for non-searchable columns', function(done) {
+            request(app)
+                .get('/movies?coverurl=//cdn.eventcinemas.com.au/resources/movies/6213/images/movie.jpg')
+                .end(function(err, res) {
+                    expect(res.body.data.movies).to.have.length(29);
+                    done(err);
+                });
+        });
+
     });
 
 });

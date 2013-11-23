@@ -4,10 +4,27 @@
  * @copyright 2013 Jeremy Worboys
  */
 
+var orm = require('orm');
+
 var movies = {};
 
 movies.list = function listMovies(req, res, next) {
-    req.models.movie.find(function(err, movies) {
+    var conds = {};
+    for (var key in req.query) {
+        switch (key) {
+        case 'title':
+        case 'synopsis':
+        case 'director':
+            conds[key] = orm.like('%' + req.query[key] + '%');
+            break;
+
+        case 'classification':
+            conds[key] = req.query[key].toUpperCase();
+            break;
+        }
+    }
+
+    req.models.movie.find(conds, function(err, movies) {
         if (err) return next(err);
 
         res.json({
