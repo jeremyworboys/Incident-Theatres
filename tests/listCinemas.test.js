@@ -79,6 +79,24 @@ describe('List Cinemas', function() {
                 });
         });
 
+        it('should not fuzzy search states', function(done) {
+            request(app)
+                .get('/cinemas?state=w')
+                .end(function(err, res) {
+                    expect(res.body.data.cinemas).to.have.length(0);
+                    done(err);
+                });
+        });
+
+        it('should not fuzzy search postcodes', function(done) {
+            request(app)
+                .get('/cinemas?postcode=20')
+                .end(function(err, res) {
+                    expect(res.body.data.cinemas).to.have.length(0);
+                    done(err);
+                });
+        });
+
     });
 
 });

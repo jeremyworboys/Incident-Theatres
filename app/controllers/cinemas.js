@@ -7,13 +7,24 @@
 var orm = require('orm');
 
 var cinemas = {};
-var searchable = ['name', 'suburb', 'state', 'postcode'];
 
 cinemas.list = function listCinemas(req, res, next) {
     var conds = {};
     for (var key in req.query) {
-        if (searchable.indexOf(key) === -1) continue;
-        conds[key] = orm.like('%' + req.query[key] + '%');
+        switch (key) {
+        case 'name':
+        case 'suburb':
+            conds[key] = orm.like('%' + req.query[key] + '%');
+            break;
+
+        case 'state':
+            conds[key] = req.query[key].toUpperCase();
+            break;
+
+        case 'postcode':
+            conds[key] = req.query[key];
+            break;
+        }
     }
 
     req.models.cinema.find(conds, function(err, cinemas) {
