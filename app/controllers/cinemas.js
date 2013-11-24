@@ -4,30 +4,10 @@
  * @copyright 2013 Jeremy Worboys
  */
 
-var orm = require('orm');
-
 var cinemas = {};
 
 cinemas.list = function listCinemas(req, res, next) {
-    var conds = {};
-    for (var key in req.query) {
-        switch (key) {
-        case 'name':
-        case 'suburb':
-            conds[key] = orm.like('%' + req.query[key] + '%');
-            break;
-
-        case 'state':
-            conds[key] = req.query[key].toUpperCase();
-            break;
-
-        case 'postcode':
-            conds[key] = req.query[key];
-            break;
-        }
-    }
-
-    req.models.cinema.find(conds, function(err, cinemas) {
+    req.models.cinema.query(req.query, function(err, cinemas) {
         if (err) return next(err);
 
         res.json({
