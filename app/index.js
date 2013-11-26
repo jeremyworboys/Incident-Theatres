@@ -13,7 +13,7 @@ var errorHandler = require('./middlewares/errorHandler');
 
 
 // Create application
-var app = module.exports = express();
+var app = express();
 
 // Configure application
 appConfig(app);
@@ -42,3 +42,6 @@ bindRoutes(app);
 app.use(modelsMiddleware);
 app.use(app.router);
 app.use(errorHandler);
+
+// Export application
+module.exports = app;
