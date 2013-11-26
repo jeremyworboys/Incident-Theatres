@@ -97,6 +97,31 @@ describe('List Cinemas', function() {
                 });
         });
 
+        it('should allow searching by latitude and longitude', function(done) {
+            request(app)
+                .get('/cinemas?ll=-33.867387,151.207629&radius=20')
+                .end(function(err, res) {
+                    expect(res.body.data.cinemas).to.have.length(9);
+                    res.body.data.cinemas.forEach(function(cinema) {
+                        expect(cinema.distance).to.be.below(20);
+                    });
+                    done(err);
+                });
+        });
+
+        it('should ordered latitude and longitude results by distance', function(done) {
+            request(app)
+                .get('/cinemas?ll=-33.867387,151.207629&radius=20')
+                .end(function(err, res) {
+                    var dist = 0;
+                    res.body.data.cinemas.forEach(function(cinema) {
+                        expect(cinema.distance).to.be.above(dist);
+                        dist = cinema.distance;
+                    });
+                    done(err);
+                });
+        });
+
     });
 
 });
