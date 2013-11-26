@@ -7,6 +7,11 @@
 var orm = require('orm');
 
 
+/**
+ * Define movie model
+ * @param  {Connection} db
+ * @return {Model}
+ */
 module.exports.define = function(db) {
 
     var Movie = db.define('movie', {
@@ -20,6 +25,11 @@ module.exports.define = function(db) {
         table: 'movies'
     });
 
+    /**
+     * Perform conditional search
+     * @param  {Object}   query
+     * @param  {Function} cb
+     */
     Movie.query = function(query, cb) {
         var conds = {};
         var runtime = {};
@@ -62,6 +72,10 @@ module.exports.define = function(db) {
 
 };
 
+/**
+ * Create model associations
+ * @param  {Connection} db
+ */
 module.exports.associations = function(db) {
 
     db.models.movie.hasMany('cinemas', db.models.cinema, {}, { mergeTable: 'cinemas_movies' });

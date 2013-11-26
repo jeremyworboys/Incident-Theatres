@@ -6,6 +6,12 @@
 
 var cinemas = {};
 
+/**
+ * List cinemas
+ * @param  {Request}  req
+ * @param  {Response} res
+ * @param  {Function} next
+ */
 cinemas.list = function listCinemas(req, res, next) {
     req.models.cinema.query(req.query, function(err, cinemas) {
         if (err) return next(err);
@@ -17,6 +23,12 @@ cinemas.list = function listCinemas(req, res, next) {
     });
 };
 
+/**
+ * Single cinema
+ * @param  {Request}  req
+ * @param  {Response} res
+ * @param  {Function} next
+ */
 cinemas.single = function singleCinema(req, res, next) {
     req.models.cinema.get(req.params.id, function(err, cinema) {
         if (err) return next(err);
@@ -28,6 +40,12 @@ cinemas.single = function singleCinema(req, res, next) {
     });
 };
 
+/**
+ * List cinema movies
+ * @param  {Request}  req
+ * @param  {Response} res
+ * @param  {Function} next
+ */
 cinemas.listMovies = function listCinemaMovies(req, res, next) {
     req.models.cinema.get(req.params.id, function(err, cinema) {
         if (err) return next(err);

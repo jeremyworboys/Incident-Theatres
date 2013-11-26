@@ -7,6 +7,11 @@
 var orm = require('orm');
 
 
+/**
+ * Define cinema model
+ * @param  {Connection} db
+ * @return {Model}
+ */
 module.exports.define = function(db) {
 
     var Cinema = db.define('cinema', {
@@ -22,6 +27,11 @@ module.exports.define = function(db) {
         table: 'cinemas'
     });
 
+    /**
+     * Proxy search query
+     * @param  {Object}   query
+     * @param  {Function} cb
+     */
     Cinema.query = function(query, cb) {
         // Geo queries ignore other params
         if (query['ll']) {
@@ -31,6 +41,11 @@ module.exports.define = function(db) {
         Cinema._queryConds(query, cb);
     };
 
+    /**
+     * Perform lat/lng search
+     * @param  {Object}   query
+     * @param  {Function} cb
+     */
     Cinema._queryGeo = function(query, cb) {
         var ll = query.ll.split(',');
         var lat = parseFloat(ll[0], 10) || false;
@@ -54,6 +69,11 @@ module.exports.define = function(db) {
         conn.query(sql, props, cb);
     };
 
+    /**
+     * Perform conditional search
+     * @param  {Object}   query
+     * @param  {Function} cb
+     */
     Cinema._queryConds = function(query, cb) {
         var conds = {};
         for (var key in query) {
@@ -80,6 +100,10 @@ module.exports.define = function(db) {
 
 };
 
+/**
+ * Create model associations
+ * @param  {Connection} db
+ */
 module.exports.associations = function(db) {
 
     db.models.cinema.hasMany('movies', db.models.movie, {}, { mergeTable: 'cinemas_movies' });
