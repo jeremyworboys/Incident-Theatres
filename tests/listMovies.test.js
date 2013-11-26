@@ -13,6 +13,11 @@ describe('List Movies', function() {
 
     describe('/movies', function() {
 
+        beforeEach(function() {
+            // Disable request signing while running tests
+            app.disable('signed_requests');
+        });
+
         it('should return json', function(done) {
             request(app)
                 .get('/movies')

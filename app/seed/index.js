@@ -35,6 +35,7 @@ module.exports.run = function(done) {
     orm.connect(dbConfig, function(err, db) {
         var cinema = require('../models/cinema').define(db);
         var movie  = require('../models/movie').define(db);
+        var apiClient  = require('../models/api_client').define(db);
 
         require('../models/cinema').associations(db);
         require('../models/movie').associations(db);
@@ -44,10 +45,12 @@ module.exports.run = function(done) {
             async.apply(truncate, db, 'cinemas'),
             async.apply(truncate, db, 'movies'),
             async.apply(truncate, db, 'cinemas_movies'),
+            async.apply(truncate, db, 'api_clients'),
 
             // Seed data
             async.apply(cinema.create, require('./cinemas').cinemas),
             async.apply(movie.create, require('./movies').movies),
+            async.apply(apiClient.create, require('./api_clients')['api_clients']),
             async.apply(cinemasMovies, db, require('./cinemas_movies')['cinemas_movies']),
 
         ], function(err) {

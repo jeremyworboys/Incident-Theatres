@@ -8,6 +8,7 @@ var orm = require('orm');
 var config = require('../config/database');
 var Cinema = require('../models/cinema');
 var Movie  = require('../models/movie');
+var ApiClient  = require('../models/api_client');
 
 
 module.exports = function(req, res, next) {
@@ -19,7 +20,8 @@ module.exports = function(req, res, next) {
         // Define all models
         req.models = {
             cinema: Cinema.define(db),
-            movie: Movie.define(db)
+            movie: Movie.define(db),
+            apiClient: ApiClient.define(db)
         };
 
         // Setup associations

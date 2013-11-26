@@ -10,6 +10,7 @@ var express = require('express');
 module.exports = function(app) {
 
     app.set('port', 3000);
+    app.enable('signed_requests');
 
     switch (app.get('env')) {
     case 'development':
