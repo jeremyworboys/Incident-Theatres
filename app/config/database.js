@@ -10,6 +10,9 @@ module.exports = {
     protocol: 'mysql',
     host: 'localhost',
     user: 'root',
-    password: 'root'
+    password: 'root',
+    query: {
+        pool: true
+    }
 
 };
