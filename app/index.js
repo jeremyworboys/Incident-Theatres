@@ -8,8 +8,8 @@ var orm = require('orm');
 var express = require('express');
 var appConfig = require('./config/application');
 var dbConfig = require('./config/database');
-var cinemas = require('./controllers/cinemas');
-var movies = require('./controllers/movies');
+var bindRoutes = require('./config/routes');
+var errorHandler = require('./middlewares/errorHandler');
 
 
 // Create application
@@ -36,18 +36,9 @@ var modelsMiddleware = function(req, res, next) {
     req.models = app.models;
     next();
 };
+bindRoutes(app);
 
 // Define middleware stack
-var errorHandler = require('./middlewares/errorHandler');
-
 app.use(modelsMiddleware);
 app.use(app.router);
 app.use(errorHandler);
-
-// Define routes
-app.get('/cinemas',           cinemas.list);
-app.get('/cinema/:id',        cinemas.single);
-app.get('/cinema/:id/movies', cinemas.listMovies);
-app.get('/movies',            movies.list);
-app.get('/movie/:id',         movies.single);
-app.get('/movie/:id/cinemas', movies.listCinemas);
